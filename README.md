@@ -9,8 +9,8 @@ Ouvrir `index.html` dans un navigateur récent. Aucun serveur ni installation n�
 - Flèches gauche/droite ou Q/D : changer de voie.
 - Espace : pause.
 - Boutons tactiles disponibles.
-- Activer SON pour le moteur et les effets synthétisés.
-- Choisir un MP3 par ville dans « Musiques par ville ». Les fichiers restent locaux et doivent être sélectionnés à nouveau après rechargement.
+- Le son démarre au lancement du tour ; SON permet de le couper ou de le réactiver.
+- Chaque ville lit automatiquement sa piste dans `audio/` en boucle : `tokyo.mp3`, `bresil.mp3`, `paris.mp3`, `mexique.mp3`, `indonesie.mp3`. Les sélecteurs permettent un remplacement temporaire.
 
 ## Le voyage
 

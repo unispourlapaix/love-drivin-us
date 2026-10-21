@@ -5,16 +5,16 @@ const worlds=[
 {name:'Paris',title:'Un rendez-vous à Paris.',label:'PARIS / HEURE DORÉE',sub:'Seine, péniches & boulangeries',icon:'♜',bg:'#b49aab',road:'#68606f',side:'#bda49b',accent:'#ffd7a5',window:'#ffdfa0',kind:'paris',speed:1},
 {name:'Mexique',title:'Corazón en la carretera.',label:'MEXIQUE / RUTA DEL SOL',sub:'Taquerías & guirlandes',icon:'✹',bg:'#c59776',road:'#806866',side:'#dba57b',accent:'#f3b563',window:'#ffdc8a',kind:'desert',speed:1.15},
 {name:'Indonésie',title:'Là où la jungle respire.',label:'INDONÉSIE / TROPICAL RUN',sub:'Warungs, rizières & temples',icon:'❀',bg:'#538b77',road:'#646d66',side:'#729759',accent:'#b3d889',window:'#ffd5a0',kind:'jungle',speed:1.08}];
-let selected=0,mode='ready',distance=0,score=0,hp=3,x=0,target=0,objects=[],spawn=0,scroll=0,invincible=0,last=0,keys={},muted=true,audio,records={};try{records=JSON.parse(localStorage.getItem('love-drivin-hearts-v2')||'{}')}catch{}
-// Each city owns a looping audio track. Files are selected locally, without upload.
+let selected=0,mode='ready',distance=0,score=0,hp=3,x=0,target=0,objects=[],spawn=0,scroll=0,invincible=0,last=0,keys={},muted=false,audio,records={};try{records=JSON.parse(localStorage.getItem('love-drivin-hearts-v2')||'{}')}catch{}
+// Bundled soundtracks follow the city automatically; local overrides are optional.
 const music=new Audio();music.loop=true;music.volume=.45;
-const tracks=Array(5).fill(null);let musicCity=-1;
+const tracks=['audio/tokyo.mp3','audio/bresil.mp3','audio/paris.mp3','audio/mexique.mp3','audio/indonesie.mp3'];let musicCity=-1;
 function syncMusic(){
 if(musicCity!==selected){music.pause();musicCity=selected;music.removeAttribute('src');if(tracks[selected]){music.src=tracks[selected];music.load()}}
 if(muted||document.hidden||!['running','ending'].includes(mode)||!tracks[selected]){music.pause();return}
 music.play().catch(()=>{});
 }
-function musicInputs(){let root=$('music-files');root.innerHTML=worlds.map((w,i)=>`<label class="track-label">${w.name}<input type="file" accept=".mp3,audio/mpeg" data-track="${i}" aria-label="MP3 pour ${w.name}"></label>`).join('');root.querySelectorAll('input').forEach(input=>input.onchange=()=>{const file=input.files[0];if(!file)return;let i=+input.dataset.track;if(tracks[i])URL.revokeObjectURL(tracks[i]);tracks[i]=URL.createObjectURL(file);if(i===selected){musicCity=-1;syncMusic()}})}
+function musicInputs(){let root=$('music-files');root.innerHTML=worlds.map((w,i)=>`<label class="track-label">${w.name}<input type="file" accept=".mp3,audio/mpeg" data-track="${i}" aria-label="MP3 pour ${w.name}"></label>`).join('');root.querySelectorAll('input').forEach(input=>input.onchange=()=>{const file=input.files[0];if(!file)return;let i=+input.dataset.track;if(tracks[i]?.startsWith('blob:'))URL.revokeObjectURL(tracks[i]);tracks[i]=URL.createObjectURL(file);if(i===selected){musicCity=-1;syncMusic()}})}
 const HEART_GOAL=20;
 let elapsed=0,points=0,totalHearts=0,boss=null,completed=0,endingTime=0;
 const hurtfulWords=['HAINE','PEUR','CONFLIT','RACISME','REJET','INTOLÉRANCE','PRÉJUGÉS','EXCLUSION'];

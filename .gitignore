@@ -7,3 +7,6 @@ Thumbs.db
 !.env.example
 *.mp3
 *.wav
+
+# Soundtracks packaged with the game
+!audio/*.mp3
