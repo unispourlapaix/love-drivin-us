@@ -10,3 +10,4 @@ Thumbs.db
 
 # Soundtracks packaged with the game
 !audio/*.mp3
+!audio/*.mp4
