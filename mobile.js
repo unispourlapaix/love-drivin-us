@@ -29,7 +29,16 @@ hadFullscreen=fullscreenActive();
 // Orientation locking is optional: a rejection must not cancel successful fullscreen.
 if(typeof screen.orientation?.lock==='function'){try{await screen.orientation.lock('landscape');orientationLocked=true}catch{fullscreenStatus('Plein écran activé. Tourne le téléphone horizontalement.')}}else fullscreenStatus('Plein écran activé. Tourne le téléphone horizontalement.');
 }catch{fullscreenStatus('Le plein écran est indisponible. Tourne le téléphone pour continuer.')}finally{fullscreenBusy=false;syncFullscreenButtons();checkLandscape()}}
-for(const id of ['fullscreen','rotate-fullscreen'])if($(id))$(id).onclick=toggleFullscreen;
+let mobileFullscreenAttempted=false;
+function enterMobileFullscreen(){
+ if(mobileFullscreenAttempted||!window.matchMedia?.('(pointer:coarse)').matches)return;
+ mobileFullscreenAttempted=true;
+ if(!fullscreenActive()&&!immersive&&!fullscreenBusy)void toggleFullscreen();
+}
+for(const id of ['fullscreen','rotate-fullscreen'])if($(id))$(id).onclick=()=>{
+ if(window.matchMedia?.('(pointer:coarse)').matches)mobileFullscreenAttempted=true;
+ return toggleFullscreen();
+};
 window.addEventListener('resize',checkLandscape);window.addEventListener('orientationchange',()=>{tiltCenter=null;tiltLast=null;tiltFiltered=0;checkLandscape()});window.visualViewport?.addEventListener('resize',viewportSize);
 document.addEventListener('fullscreenchange',fullscreenChanged);document.addEventListener('webkitfullscreenchange',fullscreenChanged);document.addEventListener('visibilitychange',()=>{if(document.hidden){if(mode==='running')pause();if(typeof syncMusic==='function')syncMusic()}});
 syncFullscreenButtons();checkLandscape();
