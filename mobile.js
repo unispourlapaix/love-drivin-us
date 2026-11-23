@@ -1,4 +1,4 @@
-let tiltWanted=true,tiltPending=false,tiltAutoAttempted=false;try{tiltWanted=localStorage.getItem('love-drivin-tilt')!=='off'}catch{}
+let tiltWanted=false,tiltPending=false,tiltAutoAttempted=false;
 let tiltSensitivity=7;try{const saved=Number(localStorage.getItem('love-drivin-tilt-angle'));if(saved>=4&&saved<=14)tiltSensitivity=saved}catch{}
 let tiltEnabled=false,tiltCenter=null,tiltLast=null,tiltFiltered=0,tiltTimer=null;
 function tiltAngle(event){if(!Number.isFinite(event.gamma)||!Number.isFinite(event.beta))return null;const angle=(screen.orientation?.angle??window.orientation??0)*Math.PI/180;return event.gamma*Math.cos(angle)+event.beta*Math.sin(angle)}
@@ -47,3 +47,7 @@ syncFullscreenButtons();checkLandscape();
 if(tiltWanted&&window.isSecureContext&&window.DeviceOrientationEvent&&typeof window.DeviceOrientationEvent.requestPermission!=='function'&&window.matchMedia?.('(pointer:coarse)').matches){tiltAutoAttempted=true;void enableTilt()}
 
 const sensitivityInput=$('tilt-sensitivity');if(sensitivityInput){sensitivityInput.value=18-tiltSensitivity;sensitivityInput.oninput=()=>{tiltSensitivity=18-Number(sensitivityInput.value);try{localStorage.setItem('love-drivin-tilt-angle',String(tiltSensitivity))}catch{}}}
+
+// Touch input takes priority over tilt until the player enables tilt again.
+function tactileSteer(direction){if(mode!=='running')return;if(tiltEnabled)stopTilt();steer(direction)}
+for(const [id,direction] of [['left',-1],['right',1]]){const button=$(id);if(!button)continue;button.onclick=event=>{if(!event||event.detail===0)tactileSteer(direction)};button.addEventListener?.('pointerdown',event=>{event.preventDefault();tactileSteer(direction)})}
