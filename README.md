@@ -34,3 +34,9 @@ git commit -m "Initial version of Love Drivin Us"
 Créer ensuite un dépôt vide sur GitHub et suivre ses commandes pour ajouter le remote et pousser la branche `main`.
 
 Ne pas ajouter de musique sans disposer des droits nécessaires. Aucune licence de redistribution n’est définie pour ce projet à ce stade.
+
+## Drag Race
+
+Le bouton DRAG RACE ouvre le garage : cinq voitures, une par destination, sélectionnables au clic ou par glisser-déposer. Course de 1 800 mètres contre une voiture pilotée par le jeu. Boîte à six rapports : flèche haut ou Shift pour monter un rapport dans la zone verte ; T pour une réserve de turbo. Sur mobile, les boutons ↑ et ⚡ remplissent ces fonctions. Espace met en pause.
+
+La première place rapporte 1 000 points et la deuxième 500, sans multiplicateur de capteurs. Ces points alimentent un portefeuille de garage local. Chaque voiture dispose de trois niveaux de moteur, pneus, turbo et aérodynamique (5 000, 10 000 puis 15 000 points par pièce). Le portefeuille et les améliorations sont sauvegardés dans le navigateur. WORLD TOUR revient au voyage original.
